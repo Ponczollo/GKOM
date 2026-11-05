@@ -1,15 +1,29 @@
+from src.model import Model
 from src.utils import Vector2
 
-class BaseEntity:
-    
-    pos_x: int
-    pos_y: int
-    pos_z: int
-    move_vector: Vector2
-    
-    def __init__(self) -> None:
-        ...
 
-    def move(self, frametime) -> None:
+class BaseEntity:
+
+    pos_x: float
+    pos_y: float
+    pos_z: float
+    move_vector: Vector2
+    model: Model | None
+
+    def __init__(
+        self,
+        pos_x: float = 0.0,
+        pos_y: float = 0.0,
+        pos_z: float = 0.0,
+        move_vector: Vector2 | None = None,
+        model: Model | None = None,
+    ) -> None:
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.pos_z = pos_z
+        self.move_vector = move_vector or Vector2(0.0, 0.0)
+        self.model = model
+
+    def move(self, frametime: float) -> None:
         self.pos_x += self.move_vector.x * frametime
         self.pos_y += self.move_vector.y * frametime
