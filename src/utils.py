@@ -55,8 +55,7 @@ class Vector2:
             self.length = self.limit
 
     def __add__(self, other: Vector2):
-        self.x += other.x
-        self.y += other.y
+        return Vector2(self.x + other.x, self.y + other.y)
 
     def _vector_value(self) -> float:
         retv = sqrt(self.x**2 + self.y**2)

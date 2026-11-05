@@ -27,7 +27,7 @@ class MainGame:
             self.handle_movement(frametime)
             self.handle_interactions()
             self.render()
-            frametime = frametime_start - time.monotonic()
+            frametime = time.monotonic() - frametime_start
             logger.debug(f"Frame {counter} took {round(frametime, 5)}s to render")
             counter += 1
             if frametime < MIN_FRAMETIME:
