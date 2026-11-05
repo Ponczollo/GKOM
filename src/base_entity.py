@@ -11,5 +11,5 @@ class BaseEntity:
         ...
 
     def move(self, frametime) -> None:
-        self.pos_x += self.move_vector * frametime
-        self.pos_y += self.move_vector * frametime
+        self.pos_x += self.move_vector.x * frametime
+        self.pos_y += self.move_vector.y * frametime
