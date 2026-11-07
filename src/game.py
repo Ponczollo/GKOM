@@ -130,13 +130,13 @@ class MainGame:
         """ Non-movement gameplay events - pickups, enemies collisions etc. """
         ...
 
-    def render(self) -> None:
-        """ Single frame render """
+    def render_setup(self) -> None:
+        
         assert self.window is not None
         width, height = glfw.get_framebuffer_size(self.window)
         if width == 0 or height == 0:
             return
-
+        
         GL.glViewport(0, 0, width, height)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GL.glMatrixMode(GL.GL_PROJECTION)
@@ -156,6 +156,11 @@ class MainGame:
             0,
             1,
         )
+
+
+    def render(self) -> None:
+        """ Single frame render """
+        self.render_setup()
 
         self._draw_ground(self.player.pos_y)
         for game_object in self.objects:
