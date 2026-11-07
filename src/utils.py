@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from math import sqrt, sin, cos
+from math import cos, radians, sin, sqrt
 
 
 class Vector2:
@@ -63,12 +63,13 @@ class Vector2:
         retv = sqrt(self.x**2 + self.y**2)
         return retv
 
-    def turn(self, angle: int):
+    def turn(self, angle: float) -> None:
         """
         Range is [-180, 180]
         - is right side turn
         + is left side turn
         """
+        angle = radians(angle)
         x = self.x * cos(angle) - self.y * sin(angle)
         y = self.x * sin(angle) + self.y * cos(angle)
         self.x = x

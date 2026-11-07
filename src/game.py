@@ -16,8 +16,8 @@ from src.utils import Vector2
 logger = logging.getLogger(__name__)
 
 WIDTH, HEIGHT = 1000, 700
-FORWARD_SPEED = 1.0
-LATERAL_SPEED = 4.0
+FORWARD_SPEED = 3.0
+TURN_SPEED = 120.0  # degrees per second
 VIEW_HALF_HEIGHT = 9.0
 CAMERA_DISTANCE = 12.0
 CAMERA_HEIGHT = 12.5
@@ -93,13 +93,11 @@ class MainGame:
         if glfw.get_key(self.window, glfw.KEY_ESCAPE) == glfw.PRESS:
             glfw.set_window_should_close(self.window, True)
 
-        # LEFT-RIGHT MOVEMENT
+        # STEERING
         if glfw.get_key(self.window, glfw.KEY_A) == glfw.PRESS:
-            self.player.move_vector.x = -LATERAL_SPEED
+            self.player.move_vector.turn(TURN_SPEED * frametime)
         elif glfw.get_key(self.window, glfw.KEY_D) == glfw.PRESS:
-            self.player.move_vector.x = LATERAL_SPEED
-        else:
-            self.player.move_vector.x = 0.0
+            self.player.move_vector.turn(-TURN_SPEED * frametime)
 
         self.player.move(frametime)
 

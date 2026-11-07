@@ -11,6 +11,7 @@ class Renderer:
 
         GL.glPushMatrix()
         GL.glTranslatef(entity.pos_x, entity.pos_y, entity.pos_z)
+        GL.glRotatef(getattr(entity, "model_rotation", 0.0), 0.0, 0.0, 1.0)
         GL.glBegin(GL.GL_QUADS)
         for indices, shade in entity.model.faces:
             GL.glColor3f(*(component * shade for component in color))
