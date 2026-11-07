@@ -27,7 +27,7 @@ OBSTACLE_POSITIONS = [(-3, 4), (2, 7), (-4, 11), (3, 15), (-2, 19)]
 class MainGame:
 
     player: Player
-    obstacles: list[BaseEntity]
+    objects: list[BaseEntity]
 
     def __init__(self) -> None:
         self.window = None
@@ -80,7 +80,7 @@ class MainGame:
 
         cube_model = Model.unit_cube()
         self.player = Player(move_vector=Vector2(0.0, FORWARD_SPEED), model=cube_model)
-        self.obstacles = [
+        self.objects = [
             BaseEntity(pos_x=x, pos_y=y, model=cube_model)
             for x, y in OBSTACLE_POSITIONS
         ]
@@ -99,11 +99,32 @@ class MainGame:
         elif glfw.get_key(self.window, glfw.KEY_D) == glfw.PRESS:
             self.player.move_vector.turn(-TURN_SPEED * frametime)
 
-        self.player.move(frametime)
+        self.movement_calculation(frametime)
 
         if glfw.get_key(self.window, glfw.KEY_R) == glfw.PRESS:
             self.player.pos_x = 0.0
             self.player.pos_y = 0.0
+
+    def movement_calculation(self, frametime: float) -> None:
+        next_x = self.player.pos_x + self.player.move_vector.x * frametime
+        if self.position_is_clear(next_x, self.player.pos_y):
+            self.player.pos_x = next_x
+        else:
+            self.player.move_vector.x = 0.0
+
+        next_y = self.player.pos_y + self.player.move_vector.y * frametime
+        if self.position_is_clear(self.player.pos_x, next_y):
+            self.player.pos_y = next_y
+        else:
+            self.player.move_vector.y = 0.0
+
+    def position_is_clear(self, pos_x: float, pos_y: float) -> bool:
+        """ Check if player/other entity doesnt collide with game objects """
+        return not any(
+            abs(pos_x - game_object.pos_x) < self.player.half_x + game_object.half_x
+            and abs(pos_y - game_object.pos_y) < self.player.half_y + game_object.half_y
+            for game_object in self.objects
+        )
 
     def handle_interactions(self) -> None:
         """ Non-movement gameplay events - pickups, enemies collisions etc. """
@@ -137,14 +158,17 @@ class MainGame:
         )
 
         self._draw_ground(self.player.pos_y)
-        for obstacle in self.obstacles:
-            self.renderer.draw(obstacle, (0.20, 0.48, 0.85))
+        for game_object in self.objects:
+            self.renderer.draw(game_object, (0.20, 0.48, 0.85))
         self.renderer.draw(self.player, (1.0, 0.35, 0.08))
         glfw.swap_buffers(self.window)
 
     @staticmethod
     def _draw_ground(center_y: float) -> None:
-        """Draw the visible ground patch and its world-space grid."""
+        """
+        Draw the visible ground patch and its world-space grid.
+        TODO: Should be repllaced down the line
+        """
         near_y = int(center_y) - 30
         far_y = int(center_y) + 30
         GL.glColor3f(0.28, 0.38, 0.28)
