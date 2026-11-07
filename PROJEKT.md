@@ -1,0 +1,5 @@
+- każdy obiekt będzie miał prostokątny hitbox, uprości to sprawdzanie kolizji a przez to obliczanie movementu
+- mesh obiektu będzie wczytywany z pliku a następnie embedowany w obiekcie Model
+- tekstura obiektu będzie wszytywana z pliku i embedowana w obiekcie Texture
+- renderer może wtedy rysować model a następnie nałożyć na niego teksturę i powinno ładnie, świetnie się rysować
+- model powinien być niezależny od hitboxu (thou powinien być podobny żeby wyglądało to sensownie)

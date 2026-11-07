@@ -1,0 +1,3 @@
+- dodanie dążenia do bazowej prędkości gracza, tak żeby po wjechaniu w ścianę nie trzeba było nabierać prędkości od zera przez kotwiczkowanie
+- do tej samej prędkości gracz powinien zwalniać tak żeby trzeba było wymusić kotwiczkowanie
+- kotwiczkowanie
